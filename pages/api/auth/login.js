@@ -1,7 +1,9 @@
 import dynamo from "@/lib/dynamo";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
+0
+console.log("AWS REGION:", process.env.AWS_REGION);
+console.log("AWS KEY PRESENT:", !!process.env.AWS_ACCESS_KEY_ID);
 export default async function handler(req, res) {
   if (req.method === "POST") {
     const { username, password } = req.body;
