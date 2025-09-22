@@ -28,14 +28,14 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 // Build Docker image using your Dockerfile
-                sh "docker build -t ${Blogpost/myblog} ."
+                sh "docker build -t "Blogpost" ."
             }
         }
 
         stage('Test Docker Container') {
             steps {
                 // Optional: run the container for testing locally
-                bat "docker run -d -p 3000:3000 ${Blogpost/myblog}"
+                bat "docker run -d -p 3000:3000 "Blogpost""
             }
         }
     }
