@@ -1,3 +1,4 @@
 .env.local
 setup-blog-app.bat
 node_modules
+.next
