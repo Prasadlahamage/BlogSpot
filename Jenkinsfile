@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "next-blog"
+        IMAGE_NAME = "Blogpost/myblog"
     }
 
     stages {
@@ -15,27 +15,27 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install --legacy-peer-deps'
+                bat 'npm install --legacy-peer-deps'
             }
         }
 
         stage('Build Application') {
             steps {
-                sh 'npm run build'
+                bat 'npm run build'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 // Build Docker image using your Dockerfile
-                sh "docker build -t ${IMAGE_NAME} ."
+                sh "docker build -t ${Blogpost/myblog} ."
             }
         }
 
         stage('Test Docker Container') {
             steps {
                 // Optional: run the container for testing locally
-                sh "docker run -d -p 3000:3000 ${IMAGE_NAME}"
+                bat "docker run -d -p 3000:3000 ${Blogpost/myblog}"
             }
         }
     }
