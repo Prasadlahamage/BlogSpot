@@ -2,13 +2,12 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "Blogpost/myblog"
+        IMAGE_NAME = "Blogpost"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Pull latest code from your repo
                 checkout scm
             }
         }
@@ -27,15 +26,15 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                // Build Docker image using your Dockerfile
-                sh "docker build -t "Blogpost" ."
+                // Call WSL to run Docker commands
+                bat 'wsl docker build -t Blogpost .'
             }
         }
 
         stage('Test Docker Container') {
             steps {
-                // Optional: run the container for testing locally
-                bat "docker run -d -p 3000:3000 "Blogpost""
+                // Run container in WSL
+                bat 'wsl docker run -d -p 3000:3000 Blogpost'
             }
         }
     }
