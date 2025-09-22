@@ -1,23 +1,34 @@
-# Step 1: Use official Node.js image (small Alpine version)
-FROM node:18-alpine AS base
-
-# Step 2: Set working directory inside container
+# Stage 1: Builder (optional, if you want to rebuild in Docker)
+FROM node:18-alpine AS builder
 WORKDIR /app
 
-# Step 3: Copy package.json and package-lock.json
+# Copy package files and install dependencies
 COPY package*.json ./
-
-# Step 4: Install dependencies
 RUN npm install --legacy-peer-deps
 
-# Step 5: Copy the rest of the project files
+# Copy all source files
 COPY . .
 
-# Step 6: Build the Next.js project (creates .next folder)
+# Build Next.js app (optional if you already built in Jenkins)
 RUN npm run build
 
-# Step 7: Expose port 3000 (Next.js default)
+# ----------------------------
+# Stage 2: Production image
+FROM node:18-alpine AS production
+WORKDIR /app
+
+# Copy only necessary files from Jenkins or builder
+COPY package*.json ./
+RUN npm install --production --legacy-peer-deps
+
+# Copy the built Next.js app from builder or Jenkins workspace
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/next.config.js ./next.config.js
+COPY --from=builder /app/node_modules ./node_modules
+
+# Expose port
 EXPOSE 3000
 
-# Step 8: Start Next.js in production mode
-CMD ["npm", "start"]
+# Start the app
+CMD ["npx", "next", "start"]
