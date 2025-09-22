@@ -27,14 +27,14 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 // Call WSL to run Docker commands
-                bat 'wsl docker build -t Blogpost .'
+                bat 'wsl docker build -t blogpost .'
             }
         }
 
         stage('Test Docker Container') {
             steps {
                 // Run container in WSL
-                bat 'wsl docker run -d -p 3000:3000 Blogpost'
+                bat 'wsl docker run -d -p 3000:3000 blogpost'
             }
         }
     }
