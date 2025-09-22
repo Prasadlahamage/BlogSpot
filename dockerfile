@@ -24,7 +24,7 @@ RUN npm install --production --legacy-peer-deps
 # Copy the built Next.js app from builder or Jenkins workspace
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.js ./next.config.js
+COPY --from=builder ./next.config.js
 COPY --from=builder /app/node_modules ./node_modules
 
 # Expose port
