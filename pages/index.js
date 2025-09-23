@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar.js";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/home.module.css";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
