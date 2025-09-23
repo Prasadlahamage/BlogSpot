@@ -94,66 +94,7 @@ export default function CreatePost() {
 
   return (
     <div className={styles.pageContainer}>
-      <Navbar />
-      <div className={styles.formContainer}>
-        <h1 className={styles.heading}>Create a Post</h1>
-
-        <input
-          type="text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className={styles.input}
-        />
-
-        <textarea
-          placeholder="Content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          rows={6}
-          className={styles.textarea}
-        />
-
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          className={styles.fileInput}
-        />
-
-        {preview && (
-          <img src={preview} alt="Preview" className={styles.imagePreview} />
-        )}
-
-        <button onClick={handleSubmit} className={styles.submitButton}>
-          Create Post
-        </button>
-
-        {message && <p className={styles.message}>{message}</p>}
-
-        <hr className={styles.divider} />
-
-        <h2>All Posts</h2>
-        {posts.length === 0 && <p>No posts yet.</p>}
-
-        {posts.map((post) => (
-          <div key={post.postId} className={styles.postCard}>
-            <h3>{post.title}</h3>
-            <p>{post.content}</p>
-            {post.image && (
-              <img
-                src={post.image}
-                alt="Post image"
-                className={styles.postImage}
-              />
-            )}
-            <div className={styles.postMeta}>
-              <span>By {post.authorName}</span> |{" "}
-              <span>{new Date(post.createdAt).toLocaleString()}</span>
-            </div>
-          </div>
-        ))}
-      </div>
+      
     </div>
   );
 }
