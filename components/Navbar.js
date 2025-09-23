@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import styles from "./Navbar.module.css";
 
 export default function Navbar() {
   const [username, setUsername] = useState(null);
@@ -19,20 +20,26 @@ export default function Navbar() {
   };
 
   return (
-    <nav style={{ padding: "10px 20px", borderBottom: "1px solid #ddd", marginBottom: "20px" }}>
-      <Link href="/" style={{ marginRight: "20px" }}>Home</Link>
+    <nav className={styles.navbar}>
+      <div className={styles.navLinks}>
+        <Link href="/">Home</Link>
+        {username ? (
+          <Link href="/create">Create Post</Link>
+        ) : (
+          <>
+            <Link href="/signup">Signup</Link>
+            <Link href="/login">Login</Link>
+          </>
+        )}
+      </div>
 
-      {username ? (
-        <>
-          <span style={{ marginRight: "20px" }}>Logged in as: {username}</span>
-          <Link href="/create" style={{ marginRight: "20px" }}>Create Post</Link>
-          <button onClick={handleLogout}>Logout</button>
-        </>
-      ) : (
-        <>
-          <Link href="/signup" style={{ marginRight: "20px" }}>Signup</Link>
-          <Link href="/login">Login</Link>
-        </>
+      {username && (
+        <div className={styles.userSection}>
+          <span>Logged in as: {username}</span>
+          <button className={styles.logoutButton} onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
       )}
     </nav>
   );

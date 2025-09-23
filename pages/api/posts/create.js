@@ -1,37 +1,159 @@
-import dynamo from "@/lib/dynamo";
-import { v4 as uuidv4 } from "uuid";
-import jwt from "jsonwebtoken";
+"use client";
 
-export default async function handler(req, res) {
-  if (req.method === "POST") {
-    const { title, content, image } = req.body; // Add image
+import { useState, useEffect } from "react";
 
-    const token = req.headers.authorization?.split(" ")[1];
-    if (!token) return res.status(401).json({ message: "No token provided" });
+export default function CreatePost() {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [message, setMessage] = useState("");
+  const [posts, setPosts] = useState([]);
 
+  const username =
+    typeof window !== "undefined" ? localStorage.getItem("username") : null;
+
+  // Fetch posts
+  const fetchPosts = async () => {
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const res = await fetch("/api/posts/get");
+      const data = await res.json();
+      setPosts(
+        data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-      const params = {
-        TableName: "Blogs",
-        Item: {
-          postId: uuidv4(),
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  // Image preview
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const convertToBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (err) => reject(err);
+    });
+
+  // Submit post
+  const handleSubmit = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setMessage("You must be logged in!");
+      return;
+    }
+
+    let base64Image = null;
+    if (image) {
+      base64Image = await convertToBase64(image);
+    }
+
+    const res = await fetch("/api/posts/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ title, content, image: base64Image }),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      setMessage("✅ Post created successfully!");
+      setPosts([
+        {
+          postId: data.postId || Math.random().toString(),
           title,
           content,
-          image: image || null,          // Save image if provided
-          authorId: decoded.userId,
-          authorName: decoded.username,
+          image: base64Image,
+          authorName: username || "You",
           createdAt: new Date().toISOString(),
         },
-      };
-
-      await dynamo.put(params).promise();
-      res.status(201).json({ success: true, message: "Blog created!" });
-    } catch (err) {
-      console.error("Create blog error:", err);
-      res.status(401).json({ message: "Invalid or expired token" });
+        ...posts,
+      ]);
+      setTitle("");
+      setContent("");
+      setImage(null);
+      setPreview(null);
+    } else {
+      setMessage(`❌ Error: ${data.message || "Something went wrong"}`);
     }
-  } else {
-    res.status(405).json({ message: "Method not allowed" });
-  }
+  };
+
+  return (
+    <div className={styles.pageContainer}>
+      <Navbar />
+      <div className={styles.formContainer}>
+        <h1 className={styles.heading}>Create a Post</h1>
+
+        <input
+          type="text"
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className={styles.input}
+        />
+
+        <textarea
+          placeholder="Content"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          rows={6}
+          className={styles.textarea}
+        />
+
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className={styles.fileInput}
+        />
+
+        {preview && (
+          <img src={preview} alt="Preview" className={styles.imagePreview} />
+        )}
+
+        <button onClick={handleSubmit} className={styles.submitButton}>
+          Create Post
+        </button>
+
+        {message && <p className={styles.message}>{message}</p>}
+
+        <hr className={styles.divider} />
+
+        <h2>All Posts</h2>
+        {posts.length === 0 && <p>No posts yet.</p>}
+
+        {posts.map((post) => (
+          <div key={post.postId} className={styles.postCard}>
+            <h3>{post.title}</h3>
+            <p>{post.content}</p>
+            {post.image && (
+              <img
+                src={post.image}
+                alt="Post image"
+                className={styles.postImage}
+              />
+            )}
+            <div className={styles.postMeta}>
+              <span>By {post.authorName}</span> |{" "}
+              <span>{new Date(post.createdAt).toLocaleString()}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }

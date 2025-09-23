@@ -1,15 +1,11 @@
 {
-  "/api/auth/login": "pages/api/auth/login.js",
-  "/api/auth/signup": "pages/api/auth/signup.js",
-  "/api/posts/delete": "pages/api/posts/delete.js",
-  "/api/posts/create": "pages/api/posts/create.js",
-  "/api/posts/get": "pages/api/posts/get.js",
-  "/create": "pages/create.html",
-  "/": "pages/index.html",
-  "/login": "pages/login.html",
-  "/signup": "pages/signup.html",
-  "/_error": "pages/_error.js",
   "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/404": "pages/404.html"
+  "/create": "pages/create.js",
+  "/": "pages/index.js",
+  "/api/posts/get": "pages/api/posts/get.js",
+  "/api/posts/create": "pages/api/posts/create.js",
+  "/login": "pages/login.js",
+  "/api/auth/login": "pages/api/auth/login.js"
 }
