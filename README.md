@@ -1,40 +1,129 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# BlogSpot 🚀
 
-## Getting Started
+BlogSpot is a cloud-native blogging platform built with **Next.js**, **AWS DynamoDB**, **JWT Authentication**, **Docker**, and **Jenkins CI/CD**.
 
-First, run the development server:
+The application allows users to securely register, authenticate, create blog posts with images, browse content from other users, and manage their own posts. The primary goal of this project was to gain hands-on experience with AWS services, authentication mechanisms, containerization, and automated deployment pipelines.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## Features
+
+- User Registration & Login
+- JWT-Based Authentication
+- Secure Password Hashing with bcrypt
+- Create and Publish Blog Posts
+- Image Upload Support
+- View and Browse Posts
+- Author-Based Post Deletion
+- Responsive User Interface
+- Automated CI/CD Pipeline using Jenkins
+- Dockerized Deployment
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---------|------------|
+| Frontend | Next.js, React |
+| Backend | Next.js API Routes |
+| Authentication | JWT, bcrypt |
+| Database | AWS DynamoDB |
+| Cloud | AWS IAM, DynamoDB |
+| CI/CD | Jenkins |
+| Containerization | Docker |
+| Version Control | GitHub |
+
+---
+
+## Architecture
+
+```text
+Users
+   │
+   ▼
+Next.js Application
+   │
+   ├── JWT Authentication
+   ├── Blog APIs
+   │
+   ▼
+AWS DynamoDB
+(Users & Blogs)
+
+GitHub
+   │
+   ▼
+Jenkins Pipeline
+   │
+   ▼
+Docker Build & Deployment
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## AWS Services Used
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### DynamoDB
+- Stores user accounts
+- Stores blog posts
+- Provides scalable NoSQL persistence
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+### IAM
+- Manages secure access to AWS resources
+- Controls application permissions
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## DevOps Highlights
 
-To learn more about Next.js, take a look at the following resources:
+- Dockerized application deployment
+- Jenkins CI/CD pipeline automation
+- Dependency validation and build verification
+- Automated image creation and deployment workflow
+- Environment-based configuration management
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Security
 
-## Deploy on Vercel
+- JWT-based authentication
+- Password hashing using bcrypt
+- Protected API routes
+- Author ownership validation before deletion
+- Secure environment variable configuration
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+## Learning Outcomes
+
+Through this project I gained practical experience with:
+
+- AWS DynamoDB
+- AWS IAM
+- JWT Authentication
+- Secure API Development
+- Docker Containerization
+- Jenkins CI/CD Pipelines
+- Cloud-Based Application Deployment
+- Full-Stack Development
+
+---
+
+## Future Improvements
+
+- Post editing functionality
+- User profiles
+- Comment system
+- AWS S3 image storage
+- Terraform Infrastructure as Code
+- CloudWatch monitoring
+- Refresh token implementation
+
+---
+
+## Author
+
+**Prasad Lahamage**
+
+GitHub: https://github.com/Prasadlahamage
